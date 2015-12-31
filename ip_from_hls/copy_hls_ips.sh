@@ -5,5 +5,5 @@ HLS_IPS=(and_mon bounded_hist bounded_once edge_mon impl_mon punc_once_4 punc_on
 
 for el in ${HLS_IPS[@]}
 do
-	cp ../hls_designs/${el}/solution1/impl/ip/*.zip .
+	cp ../hls_src/${el}/solution1/impl/ip/*.zip .
 done
