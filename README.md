@@ -74,9 +74,13 @@ The flow to generate the vivado project:
 
 *  The tcl-script `build_missile.tcl` in the `vivado` folder generates
    the Vivado project that contains block design and a debug core. Files
-   in `vivado/src` folder are sourced and included if necessary. To
-   create the project, run `source build_missile.tcl` from Vivado Tcl
-   Console.
+   in `vivado/src` folder are sourced and included if necessary. 
+  
+   To create the project, run 
+  
+  `source build_missile.tcl` 
+ 
+   from Vivado Tcl Console.
 
 ### License
 
