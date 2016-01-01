@@ -32,6 +32,10 @@ First we outline the structure of the repository:
    generating a vivado project. The script 	build_missile.tcl` is a
    main script for creating the project.
 
+Second we give the flow to generate the vivado project:
+* `hls_src` contains C/C++ sources for generating neural monitors 
+   in vivado HLS. Each sub-monitor is generated in a sequence
+   of steps which are governed by the corresponding tcl-scripts.
 
 ### License
 
@@ -43,4 +47,5 @@ I am a PhD Student at Vienna University of Technology and
 a project assistant in HARMONIA FFG Project.
 
 Konstantin Selyunin
+
 http://www.selyunin.com

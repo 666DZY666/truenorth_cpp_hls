@@ -224,6 +224,32 @@ create_root_design ""
 
 # Added by selyunin
 ##################################################################
+# MARK PINS FOR DEBUG
+##################################################################
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {uClkDiv_0_clk_o }]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0_spike_V }]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {launch_en_1 }]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {rocket_gen_0_fire_en_o }]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {rocket_gen_loop_0_detonation_o }]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {util_vector_logic_0_Res }]
+
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/and_mon_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/bounded_once_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/launch_en_1}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/fire_en_1}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/ap_start_1}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/impl_mon_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/punc_once_4_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/edge_mon_1_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/edge_mon_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/detonation_1}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/punc_once_5_1_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/ap_rst_1}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/bounded_hist_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/punc_once_5_0_spike_V}]
+set_property HDL_ATTRIBUTE.MARK_DEBUG true [get_bd_nets {neural_mon_0/ap_clk_1}]
+
+##################################################################
 # GENERATE OUTPUT PRODUCTS
 ##################################################################
 generate_target all [get_files [get_files ${design_name}.bd]]

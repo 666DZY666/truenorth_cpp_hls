@@ -103,16 +103,24 @@ puts "************************************************************************"
 puts "Creating block designs ..."
 puts "************************************************************************"
 #creating block design for a neural monitor
-source $src_path/bd/missile_bd.tcl
+# source $src_path/bd/missile_bd.tcl
+# #creating block design for a neural monitor
+# set_property used_in_synthesis false [get_files missile_bd_wrapper.vhd]
+# set_property used_in_synthesis false [get_files  missile_bd.bd]
+# set_property used_in_implementation false [get_files  missile_bd.bd]
 
 #creating block design for the whole system including signal generator
 source $src_path/bd/rocket_stl_bd.tcl
 
+
 ##############################################################
 #setting top object
-set_property top rocket_stl_bd_wrapper [current_fileset]
+set top_obj  rocket_stl_bd_wrapper
+set_property top $top_obj [current_fileset]
+update_compile_order -fileset sources_1
 ##############################################################
 
+##############################################################
 puts "************************************************************************"
 puts "Creating simulation fileset & adding simulation sources ..."
 puts "************************************************************************"
@@ -136,5 +144,71 @@ add_files -norecurse -fileset $obj $files
 set top_sim_file       rocket_top_tb
 set_property top  $top_sim_file [get_filesets sim_1]
 set_property top_lib xil_defaultlib [get_filesets sim_1]
+
+update_compile_order -fileset sim_1
 ##############################################################
 
+##############################################################
+puts "************************************************************************"
+puts "Creating a synthesis run & running synthesis ..."
+puts "************************************************************************"
+# Create 'synth_1' run (if not found)
+if {[string equal [get_runs -quiet synth_1] ""]} {
+  create_run -name synth_1 -part $part -flow {Vivado Synthesis 2015} -strategy "Vivado Synthesis Defaults" -constrset constrs_1
+} else {
+  set_property strategy "Vivado Synthesis Defaults" [get_runs synth_1]
+  set_property flow "Vivado Synthesis 2015" [get_runs synth_1]
+}
+set obj [get_runs synth_1]
+
+# set the current synth run
+current_run -synthesis [get_runs synth_1]
+
+##############################################################
+# run synthesis
+launch_runs synth_1
+wait_on_run synth_1
+##############################################################
+# print synthesis utilization report
+puts [ read [ open "${prj_root}/${prj_name}.runs/synth_1/${top_obj}_utilization_synth.rpt" r ]]
+
+##############################################################
+# open synthesized design
+open_run synth_1 -name synth_1
+
+# add debug core to the project
+source $src_path/bd/rocket_stl_bd_debug.tcl
+
+puts "************************************************************************"
+puts "Creating an implementation run & running implementation ..."
+puts "************************************************************************"
+# Create 'impl_1' run (if not found)
+if {[string equal [get_runs -quiet impl_1] ""]} {
+  create_run -name impl_1 -part $part -flow {Vivado Implementation 2015} -strategy "Vivado Implementation Defaults" -constrset constrs_1 -parent_run synth_1
+} else {
+  set_property strategy "Vivado Implementation Defaults" [get_runs impl_1]
+  set_property flow "Vivado Implementation 2015" [get_runs impl_1]
+}
+set obj [get_runs impl_1]
+set_property "steps.write_bitstream.args.readback_file" "0" $obj
+set_property "steps.write_bitstream.args.verbose" "0" $obj
+##############################################################
+# run implementation
+launch_runs impl_1
+wait_on_run impl_1
+# view reports
+
+##############################################################
+
+##############################################################
+# run implementation
+launch_runs impl_1 -to_step write_bitstream
+wait_on_run impl_1
+
+# open_hw
+# connect_hw_server -url localhost:3121
+# current_hw_target [get_hw_targets */xilinx_tcf/Digilent/210279654388A]
+# set_property PARAM.FREQUENCY 15000000 [get_hw_targets */xilinx_tcf/Digilent/210279654388A]
+# open_hw_target
+#
+# TODO: resolve critical warnings about xdc constraints
