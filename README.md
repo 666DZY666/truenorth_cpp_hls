@@ -48,19 +48,19 @@ The flow to generate the vivado project:
    of steps which are governed by corresponding tcl-scripts.
    For `monitor`s:
 
-   - and_mon 
+       - and_mon 
 
-   - bounded_hist 
+       - bounded_hist 
 
-   - bounded_once 
+       - bounded_once 
 
-   - edge_mon 
+       - edge_mon 
 
-   - impl_mon 
+       - impl_mon 
 
-   - punc_once_4
+       - punc_once_4
 
-   - punc_once_5
+       - punc_once_5
 
    we need to run `vivado_hls -f {monitor}.tcl`. This script invokes
    Vivado HLS to perform compilation, RTL synthesis, co-simulation
