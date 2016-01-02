@@ -100,8 +100,8 @@ def generate_hls_ips():
         print "Generating HLS IP:\t\t" + monitor
         print "-----------------------------------"
         hls_command = hls_exec + ' -f ' + monitor + '.tcl'
-#         exit_code_IP = subprocess.call([hls_command], 
-#                             shell=True, stderr=False, stdout=False)
+        exit_code_IP = subprocess.call([hls_command], 
+                           shell=True, stderr=False, stdout=False)
     print "==================================="
     print "Generation of HLS IPs: finished    "
     print "==================================="
