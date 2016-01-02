@@ -18,9 +18,7 @@ import datetime
 import shutil 
 import tempfile 
 import subprocess 
-from lxml import etree as ET
-import numpy as np
-import matplotlib.pyplot as plt
+
 
 sub_monitors = [
 'and_mon', 
@@ -34,6 +32,8 @@ sub_monitors = [
 vivado_exec = ""
 hls_exec = ""
 root_dir_name = ""
+time_stamp = datetime.datetime.now().strftime("_%Y_%m_%d_%H_%M_%S")
+log_file   = 'log_' + time_stamp + '.txt'
 
 def print_prereqs():
     print "To execute the following script you need:"
@@ -95,13 +95,15 @@ def generate_hls_ips():
     print "==================================="
     print "Generation of HLS IPs: started  ..."
     print "==================================="
+    log_fd = open(log_file, 'w')
     for monitor in sub_monitors:
         print "-----------------------------------"
         print "Generating HLS IP:\t\t" + monitor
         print "-----------------------------------"
         hls_command = hls_exec + ' -f ' + monitor + '.tcl'
         exit_code_IP = subprocess.call([hls_command], 
-                           shell=True, stderr=False, stdout=False)
+                            shell=True, stderr=subprocess.STDOUT, stdout=log_fd)
+    log_fd.close()
     print "==================================="
     print "Generation of HLS IPs: finished    "
     print "==================================="
@@ -115,8 +117,10 @@ def copy_ips():
     ip_from_hls_dir = root_dir_name + '/ip_from_hls'
     os.chdir(ip_from_hls_dir)
     copy_ip_cmd = 'bash ' + 'copy_hls_ips.sh'
+    log_fd = open(log_file, 'w')
     exit_code_copy = subprocess.call([copy_ip_cmd], 
-                        shell=True, stderr=False, stdout=False)
+                        shell=True, stderr=subprocess.STDOUT, stdout=log_fd)
+    log_fd.close()
     if exit_code_copy == 0:
         print "==================================="
         print "Copying done successfully          "
@@ -129,15 +133,19 @@ def generate_vivado_prj():
     print "==================================="
     vivado_dir = root_dir_name + '/vivado'
     os.chdir(vivado_dir)
-    vivado_cmd = vivado_exec + ' -mode batch -source build_missile.tcl'
+    vivado_cmd = vivado_exec + ' -mode batch -source build_missile_zed.tcl'
+    log_fd = open(log_file, 'w')
     exit_code_vivado = subprocess.call([vivado_cmd], 
-                        shell=True, stderr=False, stdout=False)
+                        shell=True, stderr=subprocess.STDOUT, stdout=log_fd)
+    log_fd.close()
     if exit_code_vivado == 0:
         print "==================================="
         print "Vivado project generated           "
         print "==================================="
     
 def main(argv):
+    
+
     print_prereqs()
     check_prereqs()
     generate_hls_ips()

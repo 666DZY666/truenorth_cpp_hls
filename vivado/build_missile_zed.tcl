@@ -1,8 +1,8 @@
 #********************************************************************************
 # Author: Selyunin 
-# Date : 30 December 2015
+# Date : 2 January 2016
 # Licence: BSDv2
-# Device: Zybo
+# Device: Zed
 #********************************************************************************
 #
 #********************************************************************************
@@ -16,9 +16,9 @@ set ip_path                  $workspace_home/ip_from_hls
 set ip_infineon_path         $workspace_home/ip_infineon
 set src_path                 $workspace_home/vivado/src
 
-# set Zybo as a device board
-set part                     {xc7z010clg400-1}
-set board                    {digilentinc.com:zybo:part0:1.0}
+# set Zed as a device board
+set part                     {xc7z020clg484-1}
+set board                    {em.avnet.com:zed:part0:1.3}
 
 puts "************************************************************************"
 puts "Creating the project "
@@ -92,7 +92,7 @@ if {[string equal [get_filesets -quiet constrs_1] ""]} {
 # Set 'constrs_1' fileset object
 set obj [get_filesets constrs_1]
 # Add/Import constrs file and set constrs file properties
-set constr_file "[file normalize "$src_path/xdc/constr.xdc"]"
+set constr_file "[file normalize "$src_path/xdc/constr_zed.xdc"]"
 set file_added [add_files -norecurse -fileset $obj $constr_file]
 set file_obj [get_files -of_objects [get_filesets constrs_1] [list "*$constr_file"]]
 set_property "file_type" "XDC" $file_obj
