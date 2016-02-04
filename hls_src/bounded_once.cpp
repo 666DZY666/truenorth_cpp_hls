@@ -17,6 +17,7 @@ void bounded_once(
       lif_out_t *result,
 	  lif_in_t *spike)
 {
+#pragma HLS INLINE recursive
 #pragma HLS LATENCY max=0
 #pragma HLS INTERFACE ap_ctrl_hs port=return
 #pragma HLS ARRAY_PARTITION variable=indata complete dim=1
